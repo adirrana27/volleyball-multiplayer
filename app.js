@@ -1583,11 +1583,9 @@ window.hostOnlineRoom = async function() {
     isHost = true;
     window.socket.emit('join-room', activeRoomCode);
     
-<<<<<<< HEAD
+
     document.getElementById('activeRoomCode').innerText = activeRoomCode;
-=======
-    document.getElementById('hostCodeDisplay').innerText = activeRoomCode;
->>>>>>> ebacfca (Initial commit of multiplayer server)
+
     document.getElementById('activeRoomBox').classList.remove('hidden');
     showToast(`Room Hosted: ${activeRoomCode}`);
 }
@@ -1600,11 +1598,9 @@ window.joinOnlineRoom = async function(codeOverride) {
     isHost = false;
     window.socket.emit('join-room', activeRoomCode);
     
-<<<<<<< HEAD
+
     document.getElementById('activeRoomCode').innerText = activeRoomCode;
-=======
-    document.getElementById('hostCodeDisplay').innerText = activeRoomCode;
->>>>>>> ebacfca (Initial commit of multiplayer server)
+
     document.getElementById('activeRoomBox').classList.remove('hidden');
     showToast(`Joined Room: ${activeRoomCode}`);
 }
