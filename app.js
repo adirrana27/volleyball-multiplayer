@@ -1,29 +1,22 @@
 // --- SOCKET.IO MULTIPLAYER OVERRIDE ---
 const socket = io();
-
 async function hostOnlineRoom() {
     activeRoomCode = Math.random().toString(36).substring(2, 6).toUpperCase();
     isHost = true;
     socket.emit('join-room', activeRoomCode);
-    
-
+    // Show the generated code in the UI
     document.getElementById('activeRoomCode').innerText = activeRoomCode;
-
     document.getElementById('activeRoomBox').classList.remove('hidden');
     showToast(`Room Hosted: ${activeRoomCode}`);
 }
-
 async function joinOnlineRoom(codeOverride) {
     const code = codeOverride || document.getElementById('joinRoomInput').value.trim().toUpperCase();
     if (!code) return showToast("Enter a room code!", true);
-    
     activeRoomCode = code;
     isHost = false;
     socket.emit('join-room', activeRoomCode);
-    
-
+    // Show the joined code in the UI
     document.getElementById('activeRoomCode').innerText = activeRoomCode;
-
     document.getElementById('activeRoomBox').classList.remove('hidden');
     showToast(`Joined Room: ${activeRoomCode}`);
 }
