@@ -1578,16 +1578,13 @@ function simulatePoint() {
 // --- SOCKET.IO MULTIPLAYER OVERRIDE ---
 window.socket = io();
 
-window.hostOnlineRoom = async function() {
-    activeRoomCode = Math.random().toString(36).substring(2, 6).toUpperCase();
-    isHost = true;
+window.joinOnlineRoom = async function (codeOverride) {
+    const code = codeOverride ||
+        document.getElementById('joinRoomInput').value.trim().toUpperCase();
+    if (!code) return showToast("Enter a room code!", true);
+    activeRoomCode = code;
+    isHost = false;
     window.socket.emit('join-room', activeRoomCode);
-    
-
-    document.getElementById('activeRoomCode').innerText = activeRoomCode;
-
-    document.getElementById('activeRoomBox').classList.remove('hidden');
-    showToast(`Room Hosted: ${activeRoomCode}`);
 }
 
 window.joinOnlineRoom = async function(codeOverride) {
@@ -1599,10 +1596,10 @@ window.joinOnlineRoom = async function(codeOverride) {
     window.socket.emit('join-room', activeRoomCode);
     
 
-    document.getElementById('activeRoomCode').innerText = activeRoomCode;
-
+document.getElementById('activeRoomCode').innerText = activeRoomCode;
     document.getElementById('activeRoomBox').classList.remove('hidden');
     showToast(`Joined Room: ${activeRoomCode}`);
+};
 }
 
 window.socket.on('room-update', (data) => {
@@ -1624,4 +1621,13 @@ window.simulatePoint = function() {
         return;
     }
     window.socket.emit('play-rally', { roomCode: activeRoomCode });
+function copyRoomInviteLink() {
+    const url = `${window.location.origin}?room=${activeRoomCode}`;
+    navigator.clipboard.writeText(url).then(() => {
+        showToast(`Invite link copied: ${url}`);
+    }).catch(() => {
+        showToast('Failed to copy link – try manual copy', true);
+    });
 }
+
+
